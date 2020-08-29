@@ -1,0 +1,18 @@
+﻿@model Booker.Models.Book
+@{
+    ViewData["Title"] = "Delete";
+}
+<form method="post" asp-controller="Books" asp-action="DeleteConfirmed">
+    <input type="hidden" name="id" value="@Model.Id" id="id" />
+    <div class="form-group">
+        Title: <p>@Model.Title</p>
+        Author: <p>@Model.Author</p>
+        Genre: <p>@Model.Genre</p>
+        Price: <p>@Model.Price</p>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-danger">Delete book</button>
+    </div>
+    @Html.HiddenFor(m => m.Id)
+    @Html.AntiForgeryToken()
+</form>

@@ -1,0 +1,48 @@
+﻿<h1>List of Books</h1>
+@{
+    ViewData["Title"] = "List of Books";
+}
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["message"]
+    </div>
+}
+@if (ViewBag.Books.Count == 0)
+{
+    <p>No books available.</p>
+}
+else
+{
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Genre</th>
+                <th scope="col">Price</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Book book in ViewBag.Books)
+            {
+                <tr>
+                    <th scope="row">@book.Id</th>
+                    <td>@book.Title</td>
+                    <td>@book.Author</td>
+                    <td>@book.Genre</td>
+                    <td>@book.Price</td>
+                    <td>
+                        <a asp-controller="Books" asp-action="Delete" asp-route-id="@book.Id">Delete?</a>
+                    </td>
+                    <td>
+                        <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id">Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
