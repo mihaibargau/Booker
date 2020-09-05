@@ -1,0 +1,42 @@
+﻿<h1>Search Books</h1>
+@{
+    ViewData["Title"] = "Search Books";
+}
+<form method="get" asp-action="Search">
+    <div class="input-group">
+        <input type="search" placeholder="Enter book title" value="@ViewData["GetBook"]" name="searchString" style="width: 300px;" />
+        <input type="submit" value="Search" class="btn btn-primary" />
+    </div>
+</form>
+
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Title</th>
+            <th scope="col">Author</th>
+            <th scope="col">Genre</th>
+            <th scope="col">Price</th>
+            <th scope="col">Delete</th>
+            <th scope="col">Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Book book in Model)
+        {
+            <tr>
+                <th scope="row">@book.Id</th>
+                <td>@book.Title</td>
+                <td>@book.Author</td>
+                <td>@book.Genre</td>
+                <td>@book.Price</td>
+                <td>
+                    <a asp-controller="Books" asp-action="Delete" asp-route-id="@book.Id">Delete?</a>
+                </td>
+                <td>
+                    <a asp-controller="Books" asp-action="Details" asp-route-id="@book.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

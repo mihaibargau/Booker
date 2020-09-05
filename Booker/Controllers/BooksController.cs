@@ -14,9 +14,14 @@ namespace Booker.Controllers
         {
             _context = context;
         }
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return View();
+        }
         public IActionResult List()
         {
-            ViewBag.Books = _context.Books.ToList();
+            ViewBag.Books = _context.Books.OrderBy(x => x.Title).ToList();
             return View();
         }
 
@@ -88,5 +93,18 @@ namespace Booker.Controllers
             return View(book);
 
         }
+        [HttpGet]
+        public async Task<IActionResult> Search(string searchString)
+        {
+            ViewData["GetBook"] = searchString;
+            var bookq = from x in _context.Books select x;
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                bookq = bookq.Where(x => x.Title.Contains(searchString));
+            }
+            return View(await bookq.AsNoTracking().ToListAsync());
+            
+        }
+
     }
 }
