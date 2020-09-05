@@ -91,20 +91,27 @@ namespace Booker.Controllers
                 return NotFound();
             }
             return View(book);
-
         }
         [HttpGet]
-        public async Task<IActionResult> Search(string searchString)
+        public async Task<IActionResult> Search(string bookTitle, string bookGenre)
         {
-            ViewData["GetBook"] = searchString;
+            ViewData["BookTitle"] = bookTitle;
+            ViewData["BookGenre"] = bookGenre;
             var bookq = from x in _context.Books select x;
-            if (!string.IsNullOrEmpty(searchString))
+
+            if (!string.IsNullOrEmpty(bookTitle) && !string.IsNullOrEmpty(bookGenre))
             {
-                bookq = bookq.Where(x => x.Title.Contains(searchString));
+                bookq = bookq.Where(x => x.Title.Contains(bookTitle)).Where(x => x.Genre.Contains(bookGenre));
+            }
+            else if (!string.IsNullOrEmpty(bookTitle))
+            {
+                bookq = bookq.Where(x => x.Title.Contains(bookTitle));
+            }
+            else if (!string.IsNullOrEmpty(bookGenre))
+            {
+                bookq = bookq.Where(x => x.Genre.Contains(bookGenre));
             }
             return View(await bookq.AsNoTracking().ToListAsync());
-            
         }
-
     }
 }
